@@ -5,13 +5,17 @@ Rails.application.routes.draw do
 
   get "/home", to: "ecommerce#index"
 
-  get "/products", to: "ecommerce#products"
+  resources :products
 
+  # get "/products", to: "products#productlist"
+
+  # get "/createproduct", to: "createproduct#productlist"
   
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
   # root "articles#index"
+
 
 
 end
