@@ -1,11 +1,12 @@
 class ProductsController < ApplicationController
+
   def index
-    @products = Product.all
+    @products = pagy(Product.all)
   end
 
   def new
     @product = Product.new
-    @products = Product.all
+    @pagy, @products = pagy(Product.all)
   end
 
   def show
@@ -19,6 +20,23 @@ class ProductsController < ApplicationController
     else
       render :new, status: :unprocessable_entity
     end
+  end
+  
+  def update
+    @product = Product.find(params[:id])
+    debugger
+    if @product.update(product_params)
+      redirect_to @product
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @product = Product.find(params[:id])
+    @product.destroy
+
+    redirect_to root_path, status: :see_other
   end
 
   private

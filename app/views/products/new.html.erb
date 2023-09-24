@@ -1,6 +1,7 @@
-<h1>Products#new</h1>
-<p>Find me in app/views/products/new.html.erb</p>
+<h1>Products</h1>
 
+<%if admin?%>
+<h2>Create Product</h2>
 <%= form_with model: @product do |form| %>
   <div>
     <%= form.label :name %><br>
@@ -20,9 +21,13 @@
   <div>
     <%= form.submit %>
   </div>
+<%end%>
 
+  
+
+<% end %>
+<h2> Product List: </h2>
 <% @products.each do |product|%>
   <%= link_to product.name, product%><br>
   <% end %>
-
-<% end %>
+ <%= pagy_nav(@pagy).html_safe%> 
