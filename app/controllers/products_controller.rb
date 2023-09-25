@@ -15,16 +15,26 @@ class ProductsController < ApplicationController
 
   def create
     @product = Product.new(product_params)
+
     if @product.save
       redirect_to @product
     else
       render :new, status: :unprocessable_entity
     end
   end
+
+  def add_to_cart
+    @product = Product.find(params[:id])
+    @user = current_user.id
+      # If the product is not in the cart, create a new cart item
+      current_user.cart_items.create(product: @product)
+      
+      redirect_to @product, notice: 'Product added to cart.'
+  end
+
   
   def update
     @product = Product.find(params[:id])
-    debugger
     if @product.update(product_params)
       redirect_to @product
     else
@@ -45,6 +55,10 @@ class ProductsController < ApplicationController
   private
   def product_params
     params.require(:product).permit(:name, :description, :price)
+  end
+
+  def cart_params
+    params.requires(:product).permit(:product_id)
   end
 
 end

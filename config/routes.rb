@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'purchases/index'
   get 'cart/index'
   devise_for :users
 
@@ -6,9 +7,13 @@ Rails.application.routes.draw do
 
   get "/home", to: "ecommerce#index"
 
-  resources :products
+  resources :products do
+    post 'add_to_cart', on: :member
+  end
 
-  resources :cart
+  resources :cart do
+    post 'purchase', on: :member
+  end
   # get "/products", to: "products#productlist"
 
   # get "/createproduct", to: "createproduct#productlist"

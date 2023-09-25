@@ -7,7 +7,7 @@
 <% if admin? %>
     <p>Welcome admin</p>
 <% elsif customer? %>
-    <p>Welcome customer</p>
+    <p>Welcome <%=current_user.name%></p>
 <% else %>
     <p> Please login </p>
 <%end%>

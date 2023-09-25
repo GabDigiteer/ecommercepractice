@@ -2,8 +2,8 @@
 
 <h1> Viewing product info for: <%=@product.name%> </h1>
 
-<p> Price: <%=@product.description%> </p>
-<p> Description</p>
+<p> Price: <%=@product.price%> </p>
+<p> Description: <%=@product.description%></p>
 <%if admin?%>
 <%= render "form", product: @product %>
 
@@ -17,5 +17,8 @@
 
 <%end%>
 <%if customer?%>
-<button> add to cart </button>
+<%= form_with(model: CartItem.new, url: add_to_cart_product_path, method: :post) do |form| %>
+  <%= form.text_field :product_id, value: @product.id %>
+  <%= form.submit "Add to Cart" %>
+<% end %>
 <%end%>

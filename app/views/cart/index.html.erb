@@ -2,3 +2,8 @@
 <%= link_to "<-- Go back", "/"%>
 <h1>Cart</h1>
 
+<% @cartitems.each do |product|%>
+  <p><%=product.product.name%></p>
+<% end %>
+
+<button><%=link_to "Purchase", purchase_cart_path(current_user)%></button>
