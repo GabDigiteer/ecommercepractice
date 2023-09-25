@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'cart/index'
   devise_for :users
 
   root "ecommerce#index"
@@ -7,6 +8,7 @@ Rails.application.routes.draw do
 
   resources :products
 
+  resources :cart
   # get "/products", to: "products#productlist"
 
   # get "/createproduct", to: "createproduct#productlist"

@@ -4,7 +4,7 @@
 
 <p> Price: <%=@product.description%> </p>
 <p> Description</p>
-<%if admmin?%>
+<%if admin?%>
 <%= render "form", product: @product %>
 
 
@@ -13,4 +13,9 @@
                     turbo_confirm: "Are you sure?"
                   } %>
     </p>
+
+
+<%end%>
+<%if customer?%>
+<button> add to cart </button>
 <%end%>

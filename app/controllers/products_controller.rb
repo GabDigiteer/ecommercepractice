@@ -39,6 +39,9 @@ class ProductsController < ApplicationController
     redirect_to root_path, status: :see_other
   end
 
+
+  
+
   private
   def product_params
     params.require(:product).permit(:name, :description, :price)

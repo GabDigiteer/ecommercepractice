@@ -1,17 +1,21 @@
 <h1> Homepage </h1>
 <% if user_signed_in? %>
   <p> <%= link_to "Logout", "/users/sign_out" %> </p>
+<% else %>
+    <%= link_to "Login", "/users/sign_in" %>
 <%end%>
-
 <% if admin? %>
     <p>Welcome admin</p>
 <% elsif customer? %>
     <p>Welcome customer</p>
 <% else %>
-    <p> LOGIN </p>
+    <p> Please login </p>
 <%end%>
+
 
 <ul>
 <li> <%= link_to  "Product", new_product_path %>    </li>
-<li> <%= link_to "Login", "/users/sign_in" %> </li>
+
+<li> <%= link_to "Cart", cart_index_path%> </li>
+
 <ul>
