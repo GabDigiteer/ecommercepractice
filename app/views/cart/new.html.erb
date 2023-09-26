@@ -1,11 +1,13 @@
 
 <%= link_to "<-- Go back", "/"%>
 <h1>Cart</h1>
-
+<%totalcart = 0%>
 <% @cartitems.each do |product|%>
-  <p><%=product.product.name%></p>
+<%total = product.product.price * product.quantity%>
+  <p>Product: <%=product.product.name%> Quantity: <%=product.quantity%> Price: <%=total%></p>
+<%totalcart += total%>
 <% end %>
-
+<p>Total: <%=totalcart%></p>
 <%=form_with model: @purchase, url:"/cart" do |form|%>
 
 <%=form.submit "Checkout"%>

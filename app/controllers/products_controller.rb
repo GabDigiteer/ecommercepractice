@@ -27,9 +27,13 @@ class ProductsController < ApplicationController
     @product = Product.find(params[:id])
     @user = current_user.id
       # If the product is not in the cart, create a new cart item
-      current_user.cart_items.create(product: @product)
-      
-      redirect_to @product, notice: 'Product added to cart.'
+      @cartitem = current_user.cart_items.new(cart_params)
+      if @cartitem.save
+        redirect_to '/'
+      else
+        render :new, status: :unprocessable_entity
+      end
+      # redirect_to '/product/new', notice: 'Product added to cart.'
   end
 
   
@@ -58,7 +62,7 @@ class ProductsController < ApplicationController
   end
 
   def cart_params
-    params.requires(:product).permit(:product_id)
+    params.require(:cart_item).permit(:product_id, :quantity)
   end
 
 end
