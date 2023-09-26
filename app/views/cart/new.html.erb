@@ -6,7 +6,8 @@
   <p><%=product.product.name%></p>
 <% end %>
 
-<%=form_with model: @purchase do |form|%>
+<%=form_with model: @purchase, url:"/cart" do |form|%>
+
 <%=form.submit "Checkout"%>
 
 <%end%>

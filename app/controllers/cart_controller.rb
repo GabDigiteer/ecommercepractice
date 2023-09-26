@@ -1,20 +1,24 @@
 class CartController < ApplicationController
     def index
         @user = current_user.id
-        @cartitems = CartItem.all.where(user:@user)
+        @cartitems = current_user.cart_items
+    end
 
+    def new
+      @user = current_user.id
+      @cartitems = current_user.cart_items
+  end
+
+    def create
+      @user = current_user.id
+      @cartitems = current_user.cart_items
+
+      @cartitems.each do |c|
+        Purchase.create(user_id:@user, product_id:c.id)
+      end
+
+      redirect_to new_cart_path, notice: 'Orders created successfully.'
 
     end
 
-    def purchase
-      debugger  
-      # @user = current_user.id
-      # @cartitems = CartItem.all.where(user:@user)
-      # #AFTER PURCHASE ADD ALL TO PURCHASES AND DELETE CART
-
-      # cartitems.each do |item|
-      #   current_user.purchases.create(product_id:item.id)
-      # end
-
-    end
 end
