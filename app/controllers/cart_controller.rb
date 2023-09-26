@@ -11,12 +11,12 @@ class CartController < ApplicationController
 
     def create
       @user = current_user.id
-      @cartitems = current_user.cart_items
-
+      @cartitems = CartItem.where(user_id: @user)
+      debugger
       @cartitems.each do |c|
-        Purchase.create(user_id:@user, product_id:c.id)
+        Purchase.create(user_id: @user, product_id: c.product_id)
       end
-
+      #need to add validation
       redirect_to new_cart_path, notice: 'Orders created successfully.'
 
     end
