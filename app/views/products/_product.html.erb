@@ -1,0 +1,7 @@
+  <tr id="<%= dom_id product %>">
+    <td><%= link_to product.name, product, data:{turbo_frame:"modal"}%></td>
+    <td><%= product.price%></td>
+    <% if admin? %>
+      <th> <%= product.price%> </th>
+    <% end %>    
+  <tr>

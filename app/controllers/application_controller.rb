@@ -19,5 +19,5 @@ class ApplicationController < ActionController::Base
     def customer?
         current_user && current_user.role == "customer"
     end
-  
+
 end

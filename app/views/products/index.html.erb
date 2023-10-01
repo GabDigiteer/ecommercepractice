@@ -1,0 +1,26 @@
+<h1>Products</h1>
+
+<%= link_to "<-- Back to home", "/" %>
+
+<div>
+<%= form_with url: new_product_path, method: :get do%>
+  <%= text_field_tag "filter", nil, placeholder: "Filter"%>
+<%end%>
+</div>
+<%if admin?%>
+<%= link_to 'Create Product', new_product_path, data:{turbo_frame: "modal"}%>
+<%end%>
+
+<h2> Product List: </h2>
+ <table id="products">
+  <tr>
+    <th>#</th>
+    <th>Product name</th>
+    <th>Price</th>
+    <% if admin? %>
+      <th> Stock </th>
+    <% end %>
+  </tr>
+      <%= render @products %>
+</table>
+ <%= pagy_nav(@pagy).html_safe%> 

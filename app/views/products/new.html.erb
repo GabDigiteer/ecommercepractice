@@ -1,33 +1,33 @@
-<h1>Products</h1>
 
-<%if admin?%>
-<h2>Create Product</h2>
-<%= form_with model: @product do |form| %>
-  <div>
-    <%= form.label :name %><br>
-    <%= form.text_field :name %>
-  </div>
+<%= turbo_frame_tag :modal do %>
 
-  <div>
-    <%= form.label :description %><br>
-    <%= form.text_area :description %>
-  </div>
+  <%if admin?%>
+  <h2>Create Product</h2>
+    <%= form_with model: Product.new, url: '/products', method: :post do |form| %>
+    <div>
+      <%= form.label :name %><br>
+      <%= form.text_field :name, required:true %>
+    </div>
 
-  <div>
-    <%= form.label :price %><br>
-    <%= form.number_field :price %>
-  </div>
+    <div>
+      <%= form.label :description %><br>
+      <%= form.text_area :description, required:true %>
+    </div>
 
-  <div>
-    <%= form.submit %>
-  </div>
-<%end%>
+    <div>
+      <%= form.label :price %><br>
+      <%= form.number_field :price, required:true, value:1%>
+    </div>
 
-  
+      <div>
+      <%= form.label :stock %><br>
+      <%= form.number_field :stock, required:true, value:1%>
+    </div>
+
+    <div>
+      <%= form.submit "Create Product" %>
+    </div>
+    <% end %>
+  <% end %>
 
 <% end %>
-<h2> Product List: </h2>
-<% @products.each do |product|%>
-  <%= link_to product.name, product%><br>
-  <% end %>
- <%= pagy_nav(@pagy).html_safe%> 

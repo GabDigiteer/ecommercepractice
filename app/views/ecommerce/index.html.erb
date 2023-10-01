@@ -14,9 +14,9 @@
 
 
 <ul>
-<li> <%= link_to  "Product", new_product_path %>    </li>
-
+<li> <%= link_to  "Product", products_path %>    </li>
+<%if customer?%>
 <li> <%= link_to "Cart", new_cart_path%> </li>
 <li> <%= link_to "Purchases", purchase_index_path%> </li> 
-
+<%end%>
 <ul>

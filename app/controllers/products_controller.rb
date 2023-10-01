@@ -1,12 +1,13 @@
 class ProductsController < ApplicationController
 
   def index
-    @products = pagy(Product.all)
+    filter = Product.where("name LIKE ?", "%#{params[:filter]}%")
+    @pagy, @products = pagy(filter.all, items:10)
   end
 
   def new
-    @product = Product.new
-    @pagy, @products = pagy(Product.all)
+    filter = Product.where("name LIKE ?", "%#{params[:filter]}%")
+    @pagy, @products = pagy(filter.all, items:10)
   end
 
   def show
@@ -15,11 +16,24 @@ class ProductsController < ApplicationController
 
   def create
     @product = Product.new(product_params)
-    
-    if @product.save
-      redirect_to @product
+
+    @duplicate = Product.find_by(name: product_params[:name])
+    if @duplicate #existing product found
+      @duplicate.stock += @product.stock
+      @duplicate.save
+      redirect_to @duplicate
     else
-      render :new, status: :unprocessable_entity
+      respond_to do |format|
+        if @product.save
+          format.turbo_stream do
+            render turbo_stream: turbo_stream.append("products", partial: 'product', locals: {product: @product} )
+          end
+
+          # redirect_to @product
+        else
+          render :new, status: :unprocessable_entity
+        end
+      end
     end
   end
 
@@ -58,7 +72,7 @@ class ProductsController < ApplicationController
 
   private
   def product_params
-    params.require(:product).permit(:name, :description, :price)
+    params.require(:product).permit(:name, :description, :price, :stock)
   end
 
   def cart_params
