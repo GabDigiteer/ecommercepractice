@@ -6,8 +6,6 @@ class ProductsController < ApplicationController
   end
 
   def new
-    filter = Product.where("name LIKE ?", "%#{params[:filter]}%")
-    @pagy, @products = pagy(filter.all, items:10)
   end
 
   def show
