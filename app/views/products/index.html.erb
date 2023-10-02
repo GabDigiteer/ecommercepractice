@@ -2,8 +2,10 @@
 
 <%= link_to "<-- Back to home", "/" %>
 
+
 <div>
-<%= form_with url: products_path, method: :get do%>
+<%= form_with url: products_path, method: :get, data: {turbo_frame: "list", 
+turbo_action: "advance", controller: "form", action: "input->form#submit"} do%>
   <%= text_field_tag "filter", nil, placeholder: "Filter"%>
 <%end%>
 </div>
@@ -12,15 +14,17 @@
 <%end%>
 
 <h2> Product List: </h2>
+
+<%= turbo_frame_tag "list" do%>
  <table id="products">
   <tr>
-    <th>#</th>
     <th>Product name</th>
     <th>Price</th>
     <% if admin? %>
       <th> Stock </th>
     <% end %>
   </tr>
-      <%= render @products %>
+  <%= render @products %>
 </table>
- <%= pagy_nav(@pagy).html_safe%> 
+<%= pagy_nav(@pagy).html_safe%> 
+<%end%>
