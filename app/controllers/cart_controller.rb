@@ -24,12 +24,17 @@ class CartController < ApplicationController
     @user = current_user.id
     @cartitems = CartItem.where(user_id: @user, checkedout: false)
     @cartitems.each do |c|
+
       Purchase.create(user_id: @user, product_id: c.product_id)
       c.update(checkedout: true)
-      #add subtraction of stock
-      # stockupdate = stock - c.quantity
-      # Product.find(c.product_id).update_attribute(:stock, )
-    end
+
+      #to reduce the stock
+      product = c.product
+      new_stock = product.stock - c.quantity
+      raise ActiveRecord::Rollback if new_stock < 0
+
+      product.update(stock: new_stock)
+      end
     #need to add validation
 
     redirect_to new_cart_path, notice: 'Items purchased'

@@ -1,10 +1,10 @@
-<h1>Products</h1>
-
 <%= link_to "<-- Back to home", "/" %>
 
+<p id="errormsg"></p>
+<h1>Products</h1>
 
 <div>
-<%= form_with url: products_path, method: :get, data: {turbo_frame: "list", 
+<%= form_with url: products_path, id: "filter", method: :get, data: {turbo_frame: "list", 
 turbo_action: "advance", controller: "form", action: "input->form#submit"} do%>
   <%= text_field_tag "filter", nil, placeholder: "Filter"%>
 <%end%>
@@ -14,6 +14,7 @@ turbo_action: "advance", controller: "form", action: "input->form#submit"} do%>
 <%end%>
 
 <h2> Product List: </h2>
+
 
 <%= turbo_frame_tag "list" do%>
  <table id="products">

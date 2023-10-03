@@ -1,7 +1,13 @@
+  <%# Partial is for each product item in the list%>
+  
   <tr id="<%= dom_id product %>">
+  <% if product.stock != 0 %>
     <td><%= link_to product.name, product, data:{turbo_frame:"modal"}%></td>
+  <%else%>
+    <td><%= product.name %></td>
+  <%end%>
     <td><%= product.price%></td>
     <% if admin? %>
-      <th> <%= product.price%> </th>
+      <th> <%= product.stock%> </th>
     <% end %>    
   <tr>

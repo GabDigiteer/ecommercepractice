@@ -1,17 +1,17 @@
 
 <%= turbo_frame_tag :modal do %>
-
+<div data-controller="turbomodal" data-action="turbo:submit-end->turbomodal#submitEnd">
   <%if admin?%>
   <h2>Create Product</h2>
-    <%= form_with model: Product.new, url: '/products', method: :post do |form| %>
+    <%= form_with model: Product.new, method: :post do |form| %>
     <div>
       <%= form.label :name %><br>
-      <%= form.text_field :name, required:true %>
+      <%= form.text_field :name %>
     </div>
 
     <div>
       <%= form.label :description %><br>
-      <%= form.text_area :description, required:true %>
+      <%= form.text_area :description %>
     </div>
 
     <div>
@@ -29,5 +29,6 @@
     </div>
     <% end %>
   <% end %>
+</div>
 
 <% end %>

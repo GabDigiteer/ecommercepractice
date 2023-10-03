@@ -1,20 +1,12 @@
 
-<%= link_to "<-- Back to product list", "/products/new" %>
   <%= turbo_frame_tag :modal do %>
+  <div data-controller="turbomodal" data-action="turbo:submit-end->turbomodal#submitEnd">
   <h1> Viewing product info for: <%=@product.name%> </h1>
 
   <p> Price: <%=@product.price%> </p>
   <p> Description: <%=@product.description%></p>
   <%if admin?%>
   <%= render "form", product: @product %>
-
-
-    <p><%= link_to "Destroy", product_path(@product), data: {
-                      turbo_method: :delete,
-                      turbo_confirm: "Are you sure?"
-                    } %>
-      </p>
-
 
   <%end%>
     <%if customer?%>
@@ -24,4 +16,5 @@
       <%= form.submit "Add to Cart" %>
     <% end %>
   <% end%>
+  </div>
 <% end %>

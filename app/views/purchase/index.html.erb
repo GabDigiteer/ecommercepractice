@@ -1,5 +1,15 @@
+<%= link_to "<-- Back to home", "/" %>
+<p><%= @current_time%></p>
 <h1>Purchases</h1>
-
+<table>
+<tr>
+    <th>Name</th>
+    <th>Puchase Date</th>
+</tr>
     <%@purchase.each do |p|%>
-        <li><%=p.product.name%></li>
+    <tr>
+        <td><%=p.product.name%></td>
+        <td><%=p.created_at.strftime(("%d %B %Y %H:%M:%S"))%></td>
+    </tr>
     <%end%>
+</table>

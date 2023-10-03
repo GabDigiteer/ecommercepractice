@@ -26,10 +26,10 @@ class ProductsController < ApplicationController
           format.turbo_stream do
             render turbo_stream: turbo_stream.append("products", partial: 'product', locals: {product: @product} )
           end
-
-          # redirect_to @product
         else
-          render :new, status: :unprocessable_entity
+          format.turbo_stream do
+            render turbo_stream: turbo_stream.append("errormsg", 'Create product failed')
+          end
         end
       end
     end
@@ -38,33 +38,42 @@ class ProductsController < ApplicationController
   def add_to_cart
     @product = Product.find(params[:id])
     @user = current_user.id
-      # If the product is not in the cart, create a new cart item
       @cartitem = current_user.cart_items.new(cart_params)
-      if @cartitem.save
-        redirect_to '/'
-      else
-        render :new, status: :unprocessable_entity
+      respond_to do |format|
+        if @cartitem.save
+          format.turbo_stream do
+            render turbo_stream: "Added to cart succesfully"
+          end
+        else
+          render :new, status: :unprocessable_entity
+        end
       end
-      # redirect_to '/product/new', notice: 'Product added to cart.'
   end
 
   
   def update
     @product = Product.find(params[:id])
-    if @product.update(product_params)
-      redirect_to @product
-    else
-      render :edit, status: :unprocessable_entity
+    respond_to do |format|
+      if @product.update(product_params)
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace("products", partial: 'product', locals: {product: @product} )
+        end
+      else
+        render :edit, status: :unprocessable_entity
+      end
     end
   end
 
   def destroy
     @product = Product.find(params[:id])
-    @product.destroy
+    if @product.destroy
+      respond_to do |format|
+        format.turbo_stream { render turbo_stream: turbo_stream.remove(@product) }
+      end
+    end
 
-    redirect_to root_path, status: :see_other
+    # redirect_to root_path, status: :see_other
   end
-
 
   
 
@@ -76,5 +85,6 @@ class ProductsController < ApplicationController
   def cart_params
     params.require(:cart_item).permit(:product_id, :quantity)
   end
+
 
 end

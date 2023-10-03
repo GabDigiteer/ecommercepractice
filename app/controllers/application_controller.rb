@@ -20,4 +20,5 @@ class ApplicationController < ActionController::Base
         current_user && current_user.role == "customer"
     end
 
+
 end
